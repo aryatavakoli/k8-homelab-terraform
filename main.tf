@@ -16,7 +16,7 @@ module "talos" {
     endpoint        = "172.16.1.100"
     gateway         = "172.16.1.1"
     talos_version   = "v1.7.6"
-    proxmox_cluster = "pve"
+    proxmox_cluster = "homelab"
   }
 
   nodes = {
