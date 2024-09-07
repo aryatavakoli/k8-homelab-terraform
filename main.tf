@@ -6,8 +6,8 @@ module "talos" {
   }
 
   image = {
-    version        = "v1.8.0-alpha.1"
-    update_version = "v1.8.0-alpha.1" # renovate: github-releases=siderolabs/talos
+    version        = "v1.7.6"
+    update_version = "v1.7.6" # renovate: github-releases=siderolabs/talos
     schematic      = file("${path.module}/talos/image/schematic.yaml")
   }
 
@@ -16,7 +16,7 @@ module "talos" {
     endpoint        = "172.16.1.100"
     gateway         = "172.16.1.1"
     talos_version   = "v1.7.6"
-    proxmox_cluster = "homelab"
+    proxmox_cluster = "pve"
   }
 
   nodes = {
