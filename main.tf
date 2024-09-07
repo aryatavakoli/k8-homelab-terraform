@@ -15,33 +15,34 @@ module "talos" {
     name            = "talos"
     endpoint        = "172.16.1.100"
     gateway         = "172.16.1.1"
-    talos_version   = "v1.7.6"
+    talos_version   = "v1.7"
     proxmox_cluster = "homelab"
   }
 
   nodes = {
-    "talos-0" = {
-      host_node     = "talos-node-0"
+    "talos-node-0" = {
+      host_node     = "pve"
       machine_type  = "controlplane"
-      ip            = "172.16.1.100"
+      ip            = "172.16.1.101"
       mac_address   = "BC:24:11:2E:C8:00"
       vm_id         = 800
       cpu           = 4
       ram_dedicated = 4096
     }
 
-    "talos-1" = {
-      host_node     = "talos-node-1"
+    "talos-node-1" = {
+      host_node     = "pve"
       machine_type  = "worker"
-      ip            = "172.16.1.102"
+      ip            = "172.16.1.101"
       mac_address   = "BC:24:11:2E:C8:02"
       vm_id         = 802
       cpu           = 2
       ram_dedicated = 2048
     }
-    "talos-2" = {
-      host_node     = "talos-node-2"
-      ip            = "172.16.1.103"
+    "talos-node-2" = {
+      host_node     = "pve"
+      machine_type  = "worker"
+      ip            = "172.16.1.102"
       mac_address   = "BC:24:11:2E:C8:02"
       vm_id         = 803
       cpu           = 2
@@ -49,6 +50,7 @@ module "talos" {
     }
 
   }
+
 
 }
 
@@ -90,14 +92,14 @@ module "volumes" {
   proxmox_api = var.proxmox
   volumes = {
     pv-mini-io = {
-      node = "talos-node-2"
+      node = "pve"
       size = "60G"
     }
   }
 }
 
 module "helm" {
-  depends_on = [module.volume]
+  depends_on = [module.volumes]
   source     = "./bootstrap/helm"
 
   providers = {
