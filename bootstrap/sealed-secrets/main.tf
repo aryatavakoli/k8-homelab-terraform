@@ -21,3 +21,17 @@ resource "kubernetes_secret" "sealed-secrets-key" {
     "tls.key" = var.cert.key
   }
 }
+
+resource "helm_release" "sealed-secrets" {
+  depends_on       = [kubernetes_namespace.sealed-secrets, kubernetes_secret.sealed-secrets-key]
+  name             = "sealed-secrets"
+  repository       = "oci://registry-1.docker.io/bitnamicharts"
+  chart            = "sealed-secrets-controller"
+  version          = "2.4.5"
+  namespace        = "sealed-secrets"
+  create_namespace = "true"
+
+  values = [
+    file("${path.module}/values.yaml")
+  ]
+}

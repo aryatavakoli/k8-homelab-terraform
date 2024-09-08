@@ -62,7 +62,7 @@ module "proxmox_csi_plugin" {
   providers = {
     proxmox    = proxmox
     kubernetes = kubernetes
-    helm = helm
+    helm       = helm
   }
 
   proxmox = var.proxmox
