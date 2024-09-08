@@ -2,7 +2,7 @@ resource "helm_release" "cilium" {
   name             = "cilium"
   repository       = "https://helm.cilium.io/"
   chart            = "cilium"
-  version          = "1.16.2"
+  version          = "1.16.1"
   namespace        = "kube-system"
   create_namespace = "true"
 
@@ -18,7 +18,6 @@ resource "helm_release" "cilium" {
 #     "kind"       = "CiliumL2AnnouncementPolicy"
 #     "metadata" = {
 #       "name"      = "default-l2-announcement-policy"
-#       "namespace" = " kube-system"
 #     }
 #     "spec" = {
 #       "externalIPs"     = "true"
@@ -37,10 +36,10 @@ resource "helm_release" "cilium" {
 #       "namespace" = " kube-system"
 #     }
 #     "spec" = {
-#       "blocks" = {
+#       "blocks" = [{
 #         "start" = "172.16.1.220"
 #         "stop"  = "172.16.1.254"
-#       }
+#       }]
 #     }
 #   }
 # }
