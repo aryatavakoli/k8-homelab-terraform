@@ -35,7 +35,7 @@ module "talos" {
       host_node     = "pve"
       machine_type  = "worker"
       ip            = "172.16.1.101"
-      mac_address   = "BC:24:11:2E:C8:02"
+      mac_address   = "BC:24:11:2E:C8:01"
       vm_id         = 802
       cpu           = 2
       ram_dedicated = 2048
