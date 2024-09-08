@@ -39,3 +39,15 @@ variable "nodes" {
     igpu          = optional(bool, false)
   }))
 }
+
+variable "skip-kubernetes-checks" {
+  description = "Skips Talos Health Checks"
+  type        = bool
+  default     = false
+}
+
+variable "vm-network-bridge" {
+  description = "Proxmox Network Bridge ID"
+  type        = string
+  default     = "vmbr0"
+}

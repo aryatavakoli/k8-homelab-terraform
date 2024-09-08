@@ -52,37 +52,14 @@
 ### Important Configuration Notes
  
 **Network Bridge Configuration**:
-   In `talos/config/vm.tf`, ensure that the `network_device` block is using the correct network bridge for your Proxmox setup. By default, the line looks like this:
+
+   Change the `vm-network-bridge` value in `main.tf`  to the one you want to use, such as `vmbr0`, which is the default for Proxmox:
    ```hcl
-   network_device {
-     bridge      = "vmbr4"
-     mac_address = each.value.mac_address
-   }
-   ```
-   Change the `bridge` value to the one you want to use, such as `vmbr0`, which is the default for Proxmox:
-   ```hcl
-   bridge = "vmbr0"
+   vm-network-bridge = "vmbr0"
    ```
 
 **Initial Terraform Run**:
-   In `talos/config.tf`, the following block manages the Talos cluster health check:
-   ```hcl
-   data "talos_cluster_health" "this" {
-     depends_on = [
-       talos_machine_configuration_apply.this,
-       talos_machine_bootstrap.this
-     ]
-     skip_kubernetes_checks = false # set to true on first run
-     client_configuration   = data.talos_client_configuration.this.client_configuration
-     control_plane_nodes    = [for k, v in var.nodes : v.ip if v.machine_type == "controlplane"]
-     worker_nodes           = [for k, v in var.nodes : v.ip if v.machine_type == "worker"]
-     endpoints              = data.talos_client_configuration.this.endpoints
-     timeouts = {
-       read = "10m"
-     }
-   }
-   ```
-   Before running `terraform apply` for the first time, make sure to change `skip_kubernetes_checks` to `true`:
+   Before running `terraform apply` for the first time, make sure to change `skip_kubernetes_checks` in `main.tf` to `true`:
    ```hcl
    skip_kubernetes_checks = true
    ```

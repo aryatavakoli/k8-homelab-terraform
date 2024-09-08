@@ -52,6 +52,9 @@ module "talos" {
 
   }
 
+  vm-network-bridge = "vmbr4"
+
+  skip-kubernetes-checks = false
 
 }
 
