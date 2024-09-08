@@ -15,6 +15,7 @@ module "talos" {
     name            = "talos"
     endpoint        = "172.16.1.100"
     gateway         = "172.16.1.1"
+    dns             = ["172.16.1.1"]
     talos_version   = "v1.7"
     proxmox_cluster = "homelab"
   }
@@ -23,7 +24,7 @@ module "talos" {
     "talos-node-0" = {
       host_node     = "pve"
       machine_type  = "controlplane"
-      ip            = "172.16.1.101"
+      ip            = "172.16.1.100"
       mac_address   = "BC:24:11:2E:C8:00"
       vm_id         = 800
       cpu           = 4

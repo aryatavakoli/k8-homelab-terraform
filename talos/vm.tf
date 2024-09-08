@@ -51,6 +51,9 @@ resource "proxmox_virtual_environment_vm" "this" {
 
   initialization {
     datastore_id = each.value.datastore_id
+    dns {
+      servers = var.cluster.dns
+    }
     ip_config {
       ipv4 {
         address = "${each.value.ip}/24"
