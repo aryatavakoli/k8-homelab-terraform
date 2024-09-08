@@ -102,6 +102,7 @@ module "cilium" {
 
 #   providers = {
 #     kubernetes = kubernetes
+#     helm       = helm
 #   }
 
 #   // openssl req -x509 -days 365 -nodes -newkey rsa:4096 -keyout sealed-secrets.key -out sealed-secrets.cert -subj "/CN=sealed-secret/O=sealed-secret"
