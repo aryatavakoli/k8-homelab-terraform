@@ -33,7 +33,6 @@ resource "helm_release" "cilium" {
 #     "kind"       = "CiliumLoadBalancerIPPool"
 #     "metadata" = {
 #       "name"      = "primary-pool"
-#       "namespace" = " kube-system"
 #     }
 #     "spec" = {
 #       "blocks" = [{
