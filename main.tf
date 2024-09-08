@@ -55,21 +55,6 @@ module "talos" {
 
 }
 
-# module "sealed_secrets" {
-#   depends_on = [module.talos]
-#   source = "./bootstrap/sealed-secrets"
-
-#   providers = {
-#     kubernetes = kubernetes
-#   }
-
-#   // openssl req -x509 -days 365 -nodes -newkey rsa:4096 -keyout sealed-secrets.key -out sealed-secrets.cert -subj "/CN=sealed-secret/O=sealed-secret"
-#   cert = {
-#     cert = file("${path.module}/bootstrap/sealed-secrets/certificate/sealed-secrets.cert")
-#     key = file("${path.module}/bootstrap/sealed-secrets/certificate/sealed-secrets.key")
-#   }
-# }
-
 module "proxmox_csi_plugin" {
   depends_on = [module.talos]
   source     = "./bootstrap/proxmox-csi-plugin"
@@ -77,6 +62,7 @@ module "proxmox_csi_plugin" {
   providers = {
     proxmox    = proxmox
     kubernetes = kubernetes
+    helm = helm
   }
 
   proxmox = var.proxmox
@@ -99,9 +85,9 @@ module "volumes" {
   }
 }
 
-module "helm" {
+module "cilium" {
   depends_on = [module.volumes]
-  source     = "./bootstrap/helm"
+  source     = "./bootstrap/cilium"
 
   providers = {
     helm       = helm
@@ -109,3 +95,18 @@ module "helm" {
   }
 
 }
+
+# module "sealed_secrets" {
+#   depends_on = [module.cilium]
+#   source = "./bootstrap/sealed-secrets"
+
+#   providers = {
+#     kubernetes = kubernetes
+#   }
+
+#   // openssl req -x509 -days 365 -nodes -newkey rsa:4096 -keyout sealed-secrets.key -out sealed-secrets.cert -subj "/CN=sealed-secret/O=sealed-secret"
+#   cert = {
+#     cert = file("${path.module}/bootstrap/sealed-secrets/certificate/sealed-secrets.cert")
+#     key = file("${path.module}/bootstrap/sealed-secrets/certificate/sealed-secrets.key")
+#   }
+# }

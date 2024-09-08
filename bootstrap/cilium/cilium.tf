@@ -7,7 +7,7 @@ resource "helm_release" "cilium" {
   create_namespace = "true"
 
   values = [
-    file("${path.module}/values/cilium.yaml")
+    file("${path.module}/values.yaml")
   ]
 }
 
@@ -17,7 +17,7 @@ resource "kubernetes_manifest" "CiliumL2AnnouncementPolicy" {
     "apiVersion" = "cilium.io/v2alpha1"
     "kind"       = "CiliumL2AnnouncementPolicy"
     "metadata" = {
-      "name"      = "default-l2-announcement-policy"
+      "name" = "default-l2-announcement-policy"
     }
     "spec" = {
       "externalIPs"     = "true"
@@ -32,7 +32,7 @@ resource "kubernetes_manifest" "CiliumLoadBalancerIPPool" {
     "apiVersion" = "cilium.io/v2alpha1"
     "kind"       = "CiliumLoadBalancerIPPool"
     "metadata" = {
-      "name"      = "primary-pool"
+      "name" = "primary-pool"
     }
     "spec" = {
       "blocks" = [{
@@ -41,17 +41,4 @@ resource "kubernetes_manifest" "CiliumLoadBalancerIPPool" {
       }]
     }
   }
-}
-
-resource "helm_release" "proxmox-csi-plugin" {
-  name             = "proxmox-csi-plugin"
-  repository       = "oci://ghcr.io/sergelogvinov/charts"
-  chart            = "proxmox-csi-plugin"
-  version          = "0.2.9"
-  namespace        = "csi-proxmox"
-  create_namespace = "true"
-
-  values = [
-    file("${path.module}/values/proxmox-csi-plugin.yaml")
-  ]
 }
