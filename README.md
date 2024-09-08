@@ -89,41 +89,41 @@
    This ensures that the cluster will be set up properly before the Kubernetes checks are performed. Once the cluster is operational, you can set it back to `false`.
 
 **Network Configuration**:
-   Network configuration must be modified with the desired values in `main.tf`. Additionally, the following resources in `bootstrap/helm/helm.tf` need to be uncommented and applied after the first run:
+   Network configuration must be modified with the desired values in `main.tf`. Additionally, the following resources in `bootstrap/helm/helm.tf` need to be removed or commented out before the first run:
    ```hcl
-   # resource "kubernetes_manifest" "CiliumL2AnnouncementPolicy" {
-   #   depends_on = [helm_release.cilium]
-   #   manifest = {
-   #     "apiVersion" = "cilium.io/v2alpha1"
-   #     "kind"       = "CiliumL2AnnouncementPolicy"
-   #     "metadata" = {
-   #       "name"      = "default-l2-announcement-policy"
-   #     }
-   #     "spec" = {
-   #       "externalIPs"     = "true"
-   #       "loadBalancerIPs" = "true"
-   #     }
-   #   }
-   # }
+    resource "kubernetes_manifest" "CiliumL2AnnouncementPolicy" {
+      depends_on = [helm_release.cilium]
+      manifest = {
+        "apiVersion" = "cilium.io/v2alpha1"
+        "kind"       = "CiliumL2AnnouncementPolicy"
+        "metadata" = {
+          "name"      = "default-l2-announcement-policy"
+        }
+        "spec" = {
+          "externalIPs"     = "true"
+          "loadBalancerIPs" = "true"
+        }
+      }
+    }
 
-   # resource "kubernetes_manifest" "CiliumLoadBalancerIPPool" {
-   #   depends_on = [helm_release.cilium]
-   #   manifest = {
-   #     "apiVersion" = "cilium.io/v2alpha1"
-   #     "kind"       = "CiliumLoadBalancerIPPool"
-   #     "metadata" = {
-   #       "name"      = "primary-pool"
-   #     }
-   #     "spec" = {
-   #       "blocks" = [{
-   #         "start" = "172.16.1.220"
-   #         "stop"  = "172.16.1.254"
-   #       }]
-   #     }
-   #   }
-   # }
+    resource "kubernetes_manifest" "CiliumLoadBalancerIPPool" {
+      depends_on = [helm_release.cilium]
+      manifest = {
+        "apiVersion" = "cilium.io/v2alpha1"
+        "kind"       = "CiliumLoadBalancerIPPool"
+        "metadata" = {
+          "name"      = "primary-pool"
+        }
+        "spec" = {
+          "blocks" = [{
+            "start" = "172.16.1.220"
+            "stop"  = "172.16.1.254"
+          }]
+        }
+      }
+    }
    ```
-   Be sure to adjust the IP addresses in these resources to match those in `main.tf`.
+   After the first run add them back and rerun terraform apply. Also, be sure to adjust the IP addresses in these resources to match those in `main.tf`.
 
 ### Installation
 

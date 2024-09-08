@@ -11,37 +11,37 @@ resource "helm_release" "cilium" {
   ]
 }
 
-# resource "kubernetes_manifest" "CiliumL2AnnouncementPolicy" {
-#   depends_on = [helm_release.cilium]
-#   manifest = {
-#     "apiVersion" = "cilium.io/v2alpha1"
-#     "kind"       = "CiliumL2AnnouncementPolicy"
-#     "metadata" = {
-#       "name"      = "default-l2-announcement-policy"
-#     }
-#     "spec" = {
-#       "externalIPs"     = "true"
-#       "loadBalancerIPs" = "true"
-#     }
-#   }
-# }
+resource "kubernetes_manifest" "CiliumL2AnnouncementPolicy" {
+  depends_on = [helm_release.cilium]
+  manifest = {
+    "apiVersion" = "cilium.io/v2alpha1"
+    "kind"       = "CiliumL2AnnouncementPolicy"
+    "metadata" = {
+      "name"      = "default-l2-announcement-policy"
+    }
+    "spec" = {
+      "externalIPs"     = "true"
+      "loadBalancerIPs" = "true"
+    }
+  }
+}
 
-# resource "kubernetes_manifest" "CiliumLoadBalancerIPPool" {
-#   depends_on = [helm_release.cilium]
-#   manifest = {
-#     "apiVersion" = "cilium.io/v2alpha1"
-#     "kind"       = "CiliumLoadBalancerIPPool"
-#     "metadata" = {
-#       "name"      = "primary-pool"
-#     }
-#     "spec" = {
-#       "blocks" = [{
-#         "start" = "172.16.1.220"
-#         "stop"  = "172.16.1.254"
-#       }]
-#     }
-#   }
-# }
+resource "kubernetes_manifest" "CiliumLoadBalancerIPPool" {
+  depends_on = [helm_release.cilium]
+  manifest = {
+    "apiVersion" = "cilium.io/v2alpha1"
+    "kind"       = "CiliumLoadBalancerIPPool"
+    "metadata" = {
+      "name"      = "primary-pool"
+    }
+    "spec" = {
+      "blocks" = [{
+        "start" = "172.16.1.220"
+        "stop"  = "172.16.1.254"
+      }]
+    }
+  }
+}
 
 resource "helm_release" "proxmox-csi-plugin" {
   name             = "proxmox-csi-plugin"
