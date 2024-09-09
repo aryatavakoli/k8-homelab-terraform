@@ -38,8 +38,8 @@ resource "kubernetes_manifest" "ArgoCdBootStrapProject" {
   }
 }
 
-resource "kubernetes_manifest" "homelab_bootstrap" {
-  depends_on = [ kubernetes_manifest.ArgoCdBootStrapProject ]
+resource "kubernetes_manifest" "HomeLabBootstrapApplication" {
+  depends_on = [kubernetes_manifest.ArgoCdBootStrapProject]
   manifest = {
     apiVersion = "argoproj.io/v1alpha1"
     kind       = "Application"
