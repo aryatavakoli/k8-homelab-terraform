@@ -11,7 +11,8 @@ resource "helm_release" "argocd" {
   ]
 }
 
-resource "kubernetes_manifest" "argocd_appproject" {
+resource "kubernetes_manifest" "ArgoCdBootStrapProject" {
+  depends_on = [helm_release.argocd]
   manifest = {
     apiVersion = "argoproj.io/v1alpha1"
     kind       = "AppProject"
@@ -37,3 +38,39 @@ resource "kubernetes_manifest" "argocd_appproject" {
   }
 }
 
+resource "kubernetes_manifest" "homelab_bootstrap" {
+  depends_on = [ kubernetes_manifest.ArgoCdBootStrapProject ]
+  manifest = {
+    apiVersion = "argoproj.io/v1alpha1"
+    kind       = "Application"
+    metadata = {
+      name      = "homelab-bootstrap"
+      namespace = "argocd"
+      finalizers = [
+        "resources-finalizer.argocd.argoproj.io"
+      ]
+    }
+    spec = {
+      project = "project-bootstrap"
+      destination = {
+        namespace = "argocd"
+        name      = "in-cluster"
+      }
+      source = {
+        path           = "argocd/apps/bootstrap"
+        repoURL        = "https://github.com/aryatavakoli/k8-homelab-charts"
+        targetRevision = "HEAD"
+      }
+      syncPolicy = {
+        automated = {
+          allowEmpty = true
+          prune      = true
+          selfHeal   = true
+        }
+        syncOptions = [
+          "CreateNamespace=true"
+        ]
+      }
+    }
+  }
+}
