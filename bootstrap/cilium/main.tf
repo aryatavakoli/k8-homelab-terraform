@@ -18,6 +18,7 @@ resource "kubernetes_manifest" "CiliumL2AnnouncementPolicy" {
     "kind"       = "CiliumL2AnnouncementPolicy"
     "metadata" = {
       "name" = "default-l2-announcement-policy"
+      "namespace" = "kube-system"
     }
     "spec" = {
       "externalIPs"     = "true"
@@ -33,6 +34,7 @@ resource "kubernetes_manifest" "CiliumLoadBalancerIPPool" {
     "kind"       = "CiliumLoadBalancerIPPool"
     "metadata" = {
       "name" = "primary-cilium-ip-pool"
+      "namespace" = "kube-system"
     }
     "spec" = {
       "blocks" = [{
