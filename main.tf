@@ -1,3 +1,9 @@
+locals {
+  ipsubnet = "172.16.1"
+  network_bridge = "vmbr4"
+  skip-kubernetes-checks = false
+}
+
 module "talos" {
   source = "./talos"
 
@@ -13,9 +19,9 @@ module "talos" {
 
   cluster = {
     name            = "talos"
-    endpoint        = "172.16.1.100"
-    gateway         = "172.16.1.1"
-    dns             = ["172.16.1.1"]
+    endpoint        = "${local.ipsubnet}.100"
+    gateway         = "${local.ipsubnet}.1"
+    dns             = ["${local.ipsubnet}.1"]
     talos_version   = "v1.7"
     proxmox_cluster = "homelab"
   }
@@ -24,7 +30,7 @@ module "talos" {
     "talos-node-0" = {
       host_node     = "pve"
       machine_type  = "controlplane"
-      ip            = "172.16.1.100"
+      ip            = "${local.ipsubnet}.100"
       mac_address   = "BC:24:11:2E:C8:00"
       vm_id         = 800
       cpu           = 4
@@ -34,7 +40,7 @@ module "talos" {
     "talos-node-1" = {
       host_node     = "pve"
       machine_type  = "worker"
-      ip            = "172.16.1.101"
+      ip            = "${local.ipsubnet}.101"
       mac_address   = "BC:24:11:2E:C8:01"
       vm_id         = 802
       cpu           = 2
@@ -43,7 +49,7 @@ module "talos" {
     "talos-node-2" = {
       host_node     = "pve"
       machine_type  = "worker"
-      ip            = "172.16.1.102"
+      ip            = "${local.ipsubnet}.102"
       mac_address   = "BC:24:11:2E:C8:02"
       vm_id         = 803
       cpu           = 2
@@ -52,9 +58,9 @@ module "talos" {
 
   }
 
-  vm-network-bridge = "vmbr4"
+  vm-network-bridge = local.network_bridge
 
-  skip-kubernetes-checks = false
+  skip-kubernetes-checks = local.skip-kubernetes-checks
 
 }
 
@@ -96,6 +102,8 @@ module "cilium" {
     helm       = helm
     kubernetes = kubernetes
   }
+
+  ip-subnet = local.ipsubnet
 
 }
 

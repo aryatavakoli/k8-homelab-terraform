@@ -36,8 +36,8 @@ resource "kubernetes_manifest" "CiliumLoadBalancerIPPool" {
     }
     "spec" = {
       "blocks" = [{
-        "start" = "172.16.1.220"
-        "stop"  = "172.16.1.254"
+        "start" = "${var.ip-subnet}.220"
+        "stop"  = "${var.ip-subnet}.254"
       }]
     }
   }
