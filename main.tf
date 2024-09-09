@@ -109,23 +109,3 @@ module "argocd" {
   }
 
 }
-
-
-
-
-
-# module "sealed_secrets" {
-#   depends_on = [module.cilium]
-#   source = "./bootstrap/sealed-secrets"
-
-#   providers = {
-#     kubernetes = kubernetes
-#     helm       = helm
-#   }
-
-#   // openssl req -x509 -days 365 -nodes -newkey rsa:4096 -keyout sealed-secrets.key -out sealed-secrets.cert -subj "/CN=sealed-secret/O=sealed-secret"
-#   cert = {
-#     cert = file("${path.module}/bootstrap/sealed-secrets/certificate/sealed-secrets.cert")
-#     key = file("${path.module}/bootstrap/sealed-secrets/certificate/sealed-secrets.key")
-#   }
-# }
