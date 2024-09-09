@@ -132,3 +132,5 @@ This project is heavily inspired by this project https://github.com/vehagn/homel
 
 Shoutout to Kubito for the in-depth explanation of Cilium and the K8s Gateway API
 https://kubito.dev/posts/gateway-api-setup-cilium-load-balancing/
+
+Shoutout to dzerolabs for explaining the ArgoCD Apps of Apps Pattern https://medium.com/dzerolabs/turbocharge-argocd-with-app-of-apps-pattern-and-kustomized-helm-ea4993190e7c
