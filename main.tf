@@ -99,6 +99,21 @@ module "cilium" {
 
 }
 
+module "argocd" {
+  depends_on = [module.volumes]
+  source     = "./bootstrap/argocd"
+
+  providers = {
+    helm       = helm
+    kubernetes = kubernetes
+  }
+
+}
+
+
+
+
+
 # module "sealed_secrets" {
 #   depends_on = [module.cilium]
 #   source = "./bootstrap/sealed-secrets"
