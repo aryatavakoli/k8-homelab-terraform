@@ -129,3 +129,6 @@ copy that file to `~/.kube/config`
 
 ## Credits
 This project is heavily inspired by this project https://github.com/vehagn/homelab
+
+Shoutout to Kubito for the in-depth explanation of Cilium and the K8s Gateway API
+https://kubito.dev/posts/gateway-api-setup-cilium-load-balancing/
