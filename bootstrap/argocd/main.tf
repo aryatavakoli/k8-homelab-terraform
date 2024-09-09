@@ -11,7 +11,7 @@ resource "helm_release" "argocd" {
   ]
 }
 
-resource "kubernetes_manifest" "ArgoCdBootStrapProject" {
+resource "kubernetes_manifest" "argocd_appproject" {
   manifest = {
     apiVersion = "argoproj.io/v1alpha1"
     kind       = "AppProject"
@@ -25,6 +25,15 @@ resource "kubernetes_manifest" "ArgoCdBootStrapProject" {
     spec = {
       description = "Homelab Bootstrap Charts"
       sourceRepos = ["*"]
+      destinations = [{
+        namespace = "*"
+        server    = "*"
+      }]
+      clusterResourceWhitelist = [{
+        group = "*"
+        kind  = "*"
+      }]
     }
   }
 }
+
