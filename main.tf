@@ -108,7 +108,7 @@ module "cilium" {
 }
 
 module "argocd" {
-  depends_on = [module.volumes]
+  depends_on = [module.cilium]
   source     = "./bootstrap/argocd"
 
   providers = {
