@@ -12,8 +12,8 @@ module "talos" {
   }
 
   image = {
-    version        = "v1.7.6"
-    update_version = "v1.7.6" # renovate: github-releases=siderolabs/talos
+    version        = "v1.9.0"
+    update_version = "v1.9.0" # renovate: github-releases=siderolabs/talos
     schematic      = file("${path.module}/talos/image/schematic.yaml")
   }
 
@@ -22,7 +22,7 @@ module "talos" {
     endpoint        = "${local.ipsubnet}.100"
     gateway         = "${local.ipsubnet}.1"
     dns             = ["${local.ipsubnet}.1"]
-    talos_version   = "v1.7"
+    talos_version   = "v1.9"
     proxmox_cluster = "homelab"
   }
 
@@ -90,6 +90,10 @@ module "volumes" {
     pv-mini-io = {
       node = "pve"
       size = "60G"
+    }
+    pv-postgres = {
+      node = "pve"
+      size = "20G"
     }
   }
 }
