@@ -1,4 +1,6 @@
 # values.yaml for cilium Helm chart
+cni:
+ exclusive: false
 
 ipam:
   mode: kubernetes
