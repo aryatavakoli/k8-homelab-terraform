@@ -39,7 +39,7 @@ k8sServiceHost: localhost
 k8sServicePort: 7445
 
 gatewayAPI:
-  enabled: true
+  enabled: false
 
 l2announcements:
   enabled: true
