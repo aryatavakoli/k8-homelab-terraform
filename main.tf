@@ -43,8 +43,8 @@ module "talos" {
       ip            = "${local.ipsubnet}.101"
       mac_address   = "BC:24:11:2E:C8:01"
       vm_id         = 802
-      cpu           = 2
-      ram_dedicated = 2048
+      cpu           = 4
+      ram_dedicated = 4096
     }
     "talos-node-2" = {
       host_node     = "pve"
@@ -52,8 +52,8 @@ module "talos" {
       ip            = "${local.ipsubnet}.102"
       mac_address   = "BC:24:11:2E:C8:02"
       vm_id         = 803
-      cpu           = 2
-      ram_dedicated = 2048
+      cpu           = 4
+      ram_dedicated = 4096
     }
 
   }
