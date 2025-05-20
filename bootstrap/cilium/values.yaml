@@ -2,6 +2,9 @@
 cni:
  exclusive: false
 
+socketLB: 
+  hostNamespaceOnly: true
+
 ipam:
   mode: kubernetes
 
@@ -26,7 +29,7 @@ securityContext:
       - FOWNER
       - SETGID
       - SETUID
-      - NET_BIND_SERVICE
+      # - NET_BIND_SERVICE
     cleanCiliumState:
       - NET_ADMIN
       - SYS_ADMIN
@@ -42,6 +45,8 @@ k8sServicePort: 7445
 
 gatewayAPI:
   enabled: false
+  enableAlpn: false
+  enableAppProtocol: false
 
 l2announcements:
   enabled: true
