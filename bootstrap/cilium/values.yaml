@@ -1,19 +1,17 @@
 # values.yaml for cilium Helm chart
+#https://istio.io/latest/docs/ambient/install/platform-prerequisites/#cilium
 cni:
  exclusive: false
 
+# https://docs.cilium.io/en/latest/network/servicemesh/istio/
 socketLB: 
   hostNamespaceOnly: true
 
+# https://www.talos.dev/v1.10/kubernetes-guides/network/deploying-cilium/
 ipam:
   mode: kubernetes
 
 kubeProxyReplacement: true
-
-envoy:
-  securityContext:
-    capabilities:
-      keepCapNetBindService: true 
 
 securityContext:
   capabilities:
@@ -29,7 +27,6 @@ securityContext:
       - FOWNER
       - SETGID
       - SETUID
-      # - NET_BIND_SERVICE
     cleanCiliumState:
       - NET_ADMIN
       - SYS_ADMIN
