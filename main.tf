@@ -99,8 +99,8 @@ module "volumes" {
 }
 
 module "cilium" {
+  depends_on = [module.volumes]
   source     = "./bootstrap/cilium"
-
   providers = {
     helm       = helm
     kubernetes = kubernetes
