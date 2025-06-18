@@ -1,7 +1,7 @@
 locals {
   ipsubnet = "172.16.1"
   network_bridge = "vmbr4"
-  skip-kubernetes-checks = true
+  skip-kubernetes-checks = false
 }
 
 module "talos" {
