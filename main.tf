@@ -1,7 +1,7 @@
 locals {
   ipsubnet = "172.16.1"
   network_bridge = "vmbr4"
-  skip-kubernetes-checks = false
+  skip-kubernetes-checks = true
 }
 
 module "talos" {
@@ -12,8 +12,8 @@ module "talos" {
   }
 
   image = {
-    version        = "v1.9.0"
-    update_version = "v1.9.0" # renovate: github-releases=siderolabs/talos
+    version        = "v1.10.0"
+    update_version = "v1.10.0" # renovate: github-releases=siderolabs/talos
     schematic      = file("${path.module}/talos/image/schematic.yaml")
   }
 
@@ -22,7 +22,7 @@ module "talos" {
     endpoint        = "${local.ipsubnet}.100"
     gateway         = "${local.ipsubnet}.1"
     dns             = ["${local.ipsubnet}.1"]
-    talos_version   = "v1.9"
+    talos_version   = "v1.10"
     proxmox_cluster = "homelab"
   }
 
@@ -99,7 +99,6 @@ module "volumes" {
 }
 
 module "cilium" {
-  depends_on = [module.volumes]
   source     = "./bootstrap/cilium"
 
   providers = {
