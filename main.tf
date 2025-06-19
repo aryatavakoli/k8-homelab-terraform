@@ -36,13 +36,12 @@ module "talos" {
       cpu           = 4
       ram_dedicated = 4096
     }
-
     "talos-node-1" = {
       host_node     = "pve"
       machine_type  = "worker"
       ip            = "${local.ipsubnet}.101"
       mac_address   = "BC:24:11:2E:C8:01"
-      vm_id         = 802
+      vm_id         = 801
       cpu           = 4
       ram_dedicated = 4096
     }
@@ -51,11 +50,19 @@ module "talos" {
       machine_type  = "worker"
       ip            = "${local.ipsubnet}.102"
       mac_address   = "BC:24:11:2E:C8:02"
+      vm_id         = 802
+      cpu           = 4
+      ram_dedicated = 4096
+    }
+    "talos-node-3" = {
+      host_node     = "pve"
+      machine_type  = "worker"
+      ip            = "${local.ipsubnet}.103"
+      mac_address   = "BC:24:11:2E:C8:03"
       vm_id         = 803
       cpu           = 4
       ram_dedicated = 4096
     }
-
   }
 
   vm-network-bridge = local.network_bridge
@@ -64,46 +71,8 @@ module "talos" {
 
 }
 
-module "proxmox_csi_plugin" {
-  depends_on = [module.talos]
-  source     = "./bootstrap/proxmox-csi-plugin"
-
-  providers = {
-    proxmox    = proxmox
-    kubernetes = kubernetes
-    helm       = helm
-  }
-
-  proxmox = var.proxmox
-}
-
-module "volumes" {
-  depends_on = [module.proxmox_csi_plugin]
-  source     = "./bootstrap/volumes"
-
-  providers = {
-    restapi    = restapi
-    kubernetes = kubernetes
-  }
-  proxmox_api = var.proxmox
-  volumes = {
-    pv-bucket-storage = {
-      node = "pve"
-      size = "60G"
-    }
-    pv-database = {
-      node = "pve"
-      size = "20G"
-    }
-    pv-minecraft = {
-      node = "pve"
-      size = "2G"
-    }
-  }
-}
-
 module "cilium" {
-  depends_on = [module.volumes]
+  depends_on = [module.talos]
   source     = "./bootstrap/cilium"
   providers = {
     helm       = helm
@@ -124,3 +93,42 @@ module "argocd" {
   }
 
 }
+
+# Disable in favour of Longhorn
+# module "proxmox_csi_plugin" {
+#   depends_on = [module.talos]
+#   source     = "./bootstrap/proxmox-csi-plugin"
+
+#   providers = {
+#     proxmox    = proxmox
+#     kubernetes = kubernetes
+#     helm       = helm
+#   }
+
+#   proxmox = var.proxmox
+# }
+
+# module "volumes" {
+#   depends_on = [module.proxmox_csi_plugin]
+#   source     = "./bootstrap/volumes"
+
+#   providers = {
+#     restapi    = restapi
+#     kubernetes = kubernetes
+#   }
+#   proxmox_api = var.proxmox
+#   volumes = {
+#     pv-bucket-storage = {
+#       node = "pve"
+#       size = "60G"
+#     }
+#     pv-database = {
+#       node = "pve"
+#       size = "20G"
+#     }
+#     pv-minecraft = {
+#       node = "pve"
+#       size = "2G"
+#     }
+#   }
+# }
