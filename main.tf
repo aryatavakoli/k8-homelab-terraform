@@ -38,7 +38,7 @@ module "talos" {
     }
     "talos-node-1" = {
       host_node     = "pve"
-      machine_type  = "worker"
+      machine_type  = "controlplane"
       ip            = "${local.ipsubnet}.101"
       mac_address   = "BC:24:11:2E:C8:01"
       vm_id         = 801
@@ -47,7 +47,7 @@ module "talos" {
     }
     "talos-node-2" = {
       host_node     = "pve"
-      machine_type  = "worker"
+      machine_type  = "controlplane"
       ip            = "${local.ipsubnet}.102"
       mac_address   = "BC:24:11:2E:C8:02"
       vm_id         = 802
@@ -60,6 +60,24 @@ module "talos" {
       ip            = "${local.ipsubnet}.103"
       mac_address   = "BC:24:11:2E:C8:03"
       vm_id         = 803
+      cpu           = 4
+      ram_dedicated = 4096
+    }
+    "talos-node-4" = {
+      host_node     = "pve"
+      machine_type  = "worker"
+      ip            = "${local.ipsubnet}.104"
+      mac_address   = "BC:24:11:2E:C8:04"
+      vm_id         = 804
+      cpu           = 4
+      ram_dedicated = 4096
+    }
+    "talos-node-5" = {
+      host_node     = "pve"
+      machine_type  = "worker"
+      ip            = "${local.ipsubnet}.105"
+      mac_address   = "BC:24:11:2E:C8:05"
+      vm_id         = 805
       cpu           = 4
       ram_dedicated = 4096
     }
@@ -76,10 +94,7 @@ module "cilium" {
   source     = "./bootstrap/cilium"
   providers = {
     helm       = helm
-    kubernetes = kubernetes
   }
-
-  ip-subnet = local.ipsubnet
 
 }
 
@@ -89,8 +104,19 @@ module "argocd" {
 
   providers = {
     helm       = helm
+  }
+
+}
+
+module "manifests" {
+  depends_on = [module.argocd]
+  source     = "./bootstrap/manifests"
+
+  providers = {
     kubernetes = kubernetes
   }
+
+  ip-subnet = local.ipsubnet
 
 }
 
@@ -121,14 +147,6 @@ module "argocd" {
 #     pv-bucket-storage = {
 #       node = "pve"
 #       size = "60G"
-#     }
-#     pv-database = {
-#       node = "pve"
-#       size = "20G"
-#     }
-#     pv-minecraft = {
-#       node = "pve"
-#       size = "2G"
 #     }
 #   }
 # }
