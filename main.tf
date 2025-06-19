@@ -87,13 +87,17 @@ module "volumes" {
   }
   proxmox_api = var.proxmox
   volumes = {
-    pv-mini-io = {
+    pv-bucket-storage = {
       node = "pve"
       size = "60G"
     }
-    pv-postgres = {
+    pv-database = {
       node = "pve"
       size = "20G"
+    }
+    pv-minecraft = {
+      node = "pve"
+      size = "2G"
     }
   }
 }
