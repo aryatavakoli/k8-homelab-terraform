@@ -16,6 +16,10 @@ terraform {
       source  = "Mastercard/restapi"
       version = "1.19.1"
     }
+    helm = {
+      source = "hashicorp/helm"
+      version = ">= 2.0.0, < 3.0.0"
+    }
   }
 }
 

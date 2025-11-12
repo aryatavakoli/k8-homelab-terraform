@@ -1,7 +1,7 @@
 locals {
   ipsubnet = "172.16.1"
   network_bridge = "vmbr4"
-  skip-kubernetes-checks = false
+  skip-kubernetes-checks = true
 }
 
 module "talos" {
@@ -12,8 +12,8 @@ module "talos" {
   }
 
   image = {
-    version        = "v1.10.0"
-    update_version = "v1.10.0" # renovate: github-releases=siderolabs/talos
+    version        = "v1.11.0"
+    update_version = "v1.11.0" # renovate: github-releases=siderolabs/talos
     schematic      = file("${path.module}/talos/image/schematic.yaml")
   }
 
@@ -22,7 +22,7 @@ module "talos" {
     endpoint        = "${local.ipsubnet}.100"
     gateway         = "${local.ipsubnet}.1"
     dns             = ["${local.ipsubnet}.1"]
-    talos_version   = "v1.10"
+    talos_version   = "v1.11"
     proxmox_cluster = "homelab"
   }
 
@@ -38,7 +38,7 @@ module "talos" {
     }
     "talos-node-1" = {
       host_node     = "pve"
-      machine_type  = "controlplane"
+      machine_type  = "worker"
       ip            = "${local.ipsubnet}.101"
       mac_address   = "BC:24:11:2E:C8:01"
       vm_id         = 801
@@ -47,7 +47,7 @@ module "talos" {
     }
     "talos-node-2" = {
       host_node     = "pve"
-      machine_type  = "controlplane"
+      machine_type  = "worker"
       ip            = "${local.ipsubnet}.102"
       mac_address   = "BC:24:11:2E:C8:02"
       vm_id         = 802
@@ -60,24 +60,6 @@ module "talos" {
       ip            = "${local.ipsubnet}.103"
       mac_address   = "BC:24:11:2E:C8:03"
       vm_id         = 803
-      cpu           = 4
-      ram_dedicated = 4096
-    }
-    "talos-node-4" = {
-      host_node     = "pve"
-      machine_type  = "worker"
-      ip            = "${local.ipsubnet}.104"
-      mac_address   = "BC:24:11:2E:C8:04"
-      vm_id         = 804
-      cpu           = 4
-      ram_dedicated = 4096
-    }
-    "talos-node-5" = {
-      host_node     = "pve"
-      machine_type  = "worker"
-      ip            = "${local.ipsubnet}.105"
-      mac_address   = "BC:24:11:2E:C8:05"
-      vm_id         = 805
       cpu           = 4
       ram_dedicated = 4096
     }
