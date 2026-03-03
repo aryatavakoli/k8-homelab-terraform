@@ -12,8 +12,8 @@ module "talos" {
   }
 
   image = {
-    version        = "v1.11.0"
-    update_version = "v1.11.0" # renovate: github-releases=siderolabs/talos
+    version        = "v1.12.0"
+    update_version = "v1.12.0" # renovate: github-releases=siderolabs/talos
     schematic      = file("${path.module}/talos/image/schematic.yaml")
   }
 
@@ -22,7 +22,7 @@ module "talos" {
     endpoint        = "${local.ipsubnet}.100"
     gateway         = "${local.ipsubnet}.1"
     dns             = ["${local.ipsubnet}.1"]
-    talos_version   = "v1.11"
+    talos_version   = "v1.12"
     proxmox_cluster = "homelab"
   }
 
@@ -102,33 +102,33 @@ module "manifests" {
 
 }
 
-# Disable in favour of Longhorn
-# module "proxmox_csi_plugin" {
-#   depends_on = [module.talos]
-#   source     = "./bootstrap/proxmox-csi-plugin"
+Disable in favour of Longhorn
+module "proxmox_csi_plugin" {
+  depends_on = [module.talos]
+  source     = "./bootstrap/proxmox-csi-plugin"
 
-#   providers = {
-#     proxmox    = proxmox
-#     kubernetes = kubernetes
-#     helm       = helm
-#   }
+  providers = {
+    proxmox    = proxmox
+    kubernetes = kubernetes
+    helm       = helm
+  }
 
-#   proxmox = var.proxmox
-# }
+  proxmox = var.proxmox
+}
 
-# module "volumes" {
-#   depends_on = [module.proxmox_csi_plugin]
-#   source     = "./bootstrap/volumes"
+module "volumes" {
+  depends_on = [module.proxmox_csi_plugin]
+  source     = "./bootstrap/volumes"
 
-#   providers = {
-#     restapi    = restapi
-#     kubernetes = kubernetes
-#   }
-#   proxmox_api = var.proxmox
-#   volumes = {
-#     pv-bucket-storage = {
-#       node = "pve"
-#       size = "60G"
-#     }
-#   }
-# }
+  providers = {
+    restapi    = restapi
+    kubernetes = kubernetes
+  }
+  proxmox_api = var.proxmox
+  volumes = {
+    pv-bucket-storage = {
+      node = "pve"
+      size = "60G"
+    }
+  }
+}
